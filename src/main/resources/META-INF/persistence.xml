@@ -3,27 +3,32 @@
     <persistence-unit name="persistencePU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-
             <property name="javax.persistence.jdbc.driver"
                       value="org.mariadb.jdbc.Driver"/>
 
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/?useSSL=false"/>
+                      value="jdbc:mariadb://localhost:3306/product-db?useSSL=false"/>
 
-            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.user"
+                      value="root"/>
 
-            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.jdbc.password"
+                      value="root"/>
 
             <property name="hibernate.dialect"
-                      value="org.hibernate.dialect.MySQL8Dialect"/>
+                      value="org.hibernate.dialect.MariaDBDialect"/>
 
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.hbm2ddl.auto"
+                      value="update"/>
 
-            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.show_sql"
+                      value="false"/>
 
-            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.format_sql"
+                      value="true"/>
 
-            <property name="hibernate.connection.pool_size" value="10"/>
+            <property name="hibernate.connection.pool_size"
+                      value="10"/>
         </properties>
 
     </persistence-unit>
