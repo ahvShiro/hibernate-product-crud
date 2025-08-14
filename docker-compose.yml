@@ -1,0 +1,12 @@
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: usr
+      MYSQL_PASSWORD: usr
+      MYSQL_DATABASE: product-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./product-db.sql:/docker-entrypoint-initdb.d/1.sql"
