@@ -3,11 +3,8 @@ package br.com.shiroshima.repository;
 import br.com.shiroshima.exception.NotFoundException;
 import br.com.shiroshima.model.Product;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.List;
-import java.util.Optional;
 
 public class ProductDAO {
 
@@ -36,10 +33,54 @@ public class ProductDAO {
         return product;
     }
 
+    public Product getByName(String name) {
+        EntityManager em = emf.createEntityManager();
+
+        String jpql = "SELECT p FROM Product p WHERE p.name = :name";
+        TypedQuery<Product> query = em.createQuery(jpql, Product.class);
+        query.setParameter("name", name);
+
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Product> getAllByPartialName(String search) {
+        EntityManager em = emf.createEntityManager();
+
+        String jpql = "SELECT p FROM Product p WHERE p.name LIKE :pattern";
+        TypedQuery<Product> query = em.createQuery(jpql, Product.class);
+        query.setParameter("pattern", "%" + search + "%");
+
+        List<Product> products = query.getResultList();
+
+        if (products.isEmpty()) {
+            throw new NotFoundException("Not found!");
+        }
+
+        return products;
+    }
+
     public List<Product> getAll() {
         EntityManager em = emf.createEntityManager();
 
         List<Product> products = em.createQuery("Select product from Product product", Product.class).getResultList();
+
+        if (products.isEmpty()) {
+            throw new NotFoundException("Not found!");
+        }
+
+        return products;
+    }
+
+    public List<Product> getAllOrderByPrice() {
+        EntityManager em = emf.createEntityManager();
+
+        List<Product> products = em.createQuery("Select product from Product product order by product.price", Product.class).getResultList();
 
         if (products.isEmpty()) {
             throw new NotFoundException("Not found!");
