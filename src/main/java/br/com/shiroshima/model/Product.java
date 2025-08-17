@@ -67,11 +67,13 @@ public class Product {
 
     @Override
     public String toString() {
-        return "\nProduct{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                '}';
+        return """
+                {
+                  "id": %d,
+                  "name": "%s",
+                  "description": "%s",
+                  "price": %.2f
+                }
+                """.formatted(id, name, description, price);
     }
 }
